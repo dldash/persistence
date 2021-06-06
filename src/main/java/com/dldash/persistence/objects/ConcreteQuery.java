@@ -1,4 +1,4 @@
-package com.dldash.persistence.queries;
+package com.dldash.persistence.objects;
 
 import com.dldash.persistence.contracts.Query;
 

@@ -4,7 +4,7 @@ import com.dldash.persistence.contracts.Query;
 import com.dldash.persistence.contracts.BuilderContract;
 import com.dldash.persistence.contracts.WhereContract;
 import com.dldash.persistence.objects.Raw;
-import com.dldash.persistence.queries.ConcreteQuery;
+import com.dldash.persistence.objects.ConcreteQuery;
 
 import java.util.ArrayList;
 import java.util.List;

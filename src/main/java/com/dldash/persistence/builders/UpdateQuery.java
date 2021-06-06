@@ -1,10 +1,10 @@
 package com.dldash.persistence.builders;
 
-import com.dldash.persistence.contracts.Query;
 import com.dldash.persistence.contracts.BuilderContract;
+import com.dldash.persistence.contracts.Query;
 import com.dldash.persistence.contracts.WhereContract;
-import com.dldash.persistence.objects.Raw;
 import com.dldash.persistence.objects.ConcreteQuery;
+import com.dldash.persistence.objects.Raw;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,17 +33,6 @@ public final class UpdateQuery implements BuilderContract, WhereContract<UpdateQ
         return this;
     }
 
-    public UpdateQuery updateRaw(String sql, List<Object> bindings) {
-        updates.add(sql);
-        updateBindings.addAll(bindings);
-        return this;
-    }
-
-    public UpdateQuery updateRaw(String sql) {
-        updates.add(sql);
-        return this;
-    }
-
     public UpdateQuery update(String column, Object value) {
         updates.add(column + " = ?");
         updateBindings.add(value);
@@ -57,13 +46,23 @@ public final class UpdateQuery implements BuilderContract, WhereContract<UpdateQ
         return this;
     }
 
-    public UpdateQuery update(String column, Raw value) {
-        updates.add(column + " = " + value);
+    public UpdateQuery update(String column, Raw raw) {
+        updates.add(column + " = " + (raw != null ? raw.value() : "NULL"));
         return this;
     }
 
-    public UpdateQuery updateBits(String column, int bitsToAdd, int bitsToRemove) {
-        updates.add(column + " = (IFNULL(" + column + ", 0) | " + bitsToAdd + ") &~ " + bitsToRemove);
+    public UpdateQuery updateBits(String column, int bitsToTurnOn, int bitsToTurnOff) {
+        updates.add(column + " = (IFNULL(" + column + ", 0) | " + bitsToTurnOn + ") &~ " + bitsToTurnOff);
+        return this;
+    }
+
+    public UpdateQuery turnOnBits(String column, int bits) {
+        updates.add(column + " = IFNULL(" + column + ", 0) | " + bits);
+        return this;
+    }
+
+    public UpdateQuery turnOffBits(String column, int bits) {
+        updates.add(column + " = IFNULL(" + column + ", 0) &~ " + bits);
         return this;
     }
 

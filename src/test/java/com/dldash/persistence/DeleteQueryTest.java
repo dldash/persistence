@@ -12,10 +12,10 @@ public class DeleteQueryTest extends BaseTest {
     public void delete() {
         Query query = DeleteQuery.builder()
                 .table("table")
-                .where("id", 1)
+                .where("A", 1)
                 .build();
 
-        a("DELETE FROM table WHERE id = ?", Collections.singletonList(1), query);
+        a("DELETE FROM table WHERE A = ?", Collections.singletonList(1), query);
     }
 
 }

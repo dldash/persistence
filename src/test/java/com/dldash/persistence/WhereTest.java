@@ -10,7 +10,27 @@ import java.util.List;
 public class WhereTest extends BaseTest {
 
     @Test
-    public void testWhereNull() {
+    public void where() {
+        Query query = query()
+                .where("A", 1)
+                .orWhere("B", 2)
+                .build();
+
+        a("SELECT * FROM table WHERE A = ? OR B = ?", Arrays.asList(1, 2), query);
+    }
+
+    @Test
+    public void whereIfPresent() {
+        Query query = query()
+                .whereIfPresent("A", 1)
+                .whereIfPresent("B", null)
+                .build();
+
+        a("SELECT * FROM table WHERE A = ?", Collections.singletonList(1), query);
+    }
+
+    @Test
+    public void whereNull() {
         Query query = query()
                 .whereNull("UpdatedAt")
                 .build();
@@ -19,7 +39,7 @@ public class WhereTest extends BaseTest {
     }
 
     @Test
-    public void testWhereNotNull() {
+    public void whereNotNull() {
         Query query = query()
                 .whereNotNull("UpdatedAt")
                 .build();
@@ -28,7 +48,7 @@ public class WhereTest extends BaseTest {
     }
 
     @Test
-    public void testWhereNow() {
+    public void whereRaw() {
         Query query = query()
                 .whereRaw("PublishedAt <= NOW()")
                 .build();
@@ -37,7 +57,7 @@ public class WhereTest extends BaseTest {
     }
 
     @Test
-    public void testWhereBoolean() {
+    public void whereBoolean() {
         Query query = query()
                 .where("Active", true)
                 .build();
@@ -46,15 +66,22 @@ public class WhereTest extends BaseTest {
     }
 
     @Test
-    public void testWhereBits() {
-        Query queryBitOn = query().whereBit("Flags", 32).build();
-        Query queryBitOff = query().whereNotBit("Flags", 32).build();
-        a("SELECT * FROM table WHERE Flags & 32 > 0", queryBitOn);
-        a("SELECT * FROM table WHERE Flags & 32 = 0", queryBitOff);
+    public void bits() {
+        Query on = query()
+                .whereOnBits("Flags", 32)
+                .build();
+
+        a("SELECT * FROM table WHERE Flags & 32 > 0", on);
+
+        Query off = query()
+                .whereOffBits("Flags", 32)
+                .build();
+
+        a("SELECT * FROM table WHERE Flags & 32 = 0", off);
     }
 
     @Test
-    public void testWhereIn() {
+    public void whereIn() {
         List<Object> ids = Arrays.asList(1, 5, 10);
         Query arrayQuery = query()
                 .whereIn("Id", ids)
@@ -70,7 +97,7 @@ public class WhereTest extends BaseTest {
     }
 
     @Test
-    public void testContains() {
+    public void contains() {
         Query query = query()
                 .whereContains("Name", "Name")
                 .build();

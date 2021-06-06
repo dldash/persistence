@@ -1,7 +1,7 @@
 package com.dldash.persistence.builders;
 
-import com.dldash.persistence.contracts.Query;
 import com.dldash.persistence.contracts.BuilderContract;
+import com.dldash.persistence.contracts.Query;
 import com.dldash.persistence.contracts.WhereContract;
 import com.dldash.persistence.objects.ConcreteQuery;
 
@@ -38,9 +38,11 @@ public final class DeleteQuery implements BuilderContract, WhereContract<DeleteQ
 
     @Override
     public DeleteQuery whereRaw(String sql, List<Object> bindings, String bool) {
-        wheres.append(wheres.length() > 0 ? bool : " WHERE ").append(sql);
-        if (bindings != null) {
-            this.whereBindings.addAll(bindings);
+        if (sql != null) {
+            wheres.append(wheres.length() > 0 ? bool : " WHERE ").append(sql);
+            if (bindings != null) {
+                this.whereBindings.addAll(bindings);
+            }
         }
         return this;
     }

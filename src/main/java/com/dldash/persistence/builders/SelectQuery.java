@@ -203,9 +203,11 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
 
     @Override
     public SelectQuery whereRaw(String sql, List<Object> bindings, String bool) {
-        wheres.append(wheres.length() > 0 ? bool : " WHERE ").append(sql);
-        if (bindings != null) {
-            this.whereBindings.addAll(bindings);
+        if (sql != null) {
+            wheres.append(wheres.length() > 0 ? bool : " WHERE ").append(sql);
+            if (bindings != null) {
+                this.whereBindings.addAll(bindings);
+            }
         }
         return this;
     }

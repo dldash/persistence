@@ -28,7 +28,11 @@ public interface WhereContract<T> {
     }
 
     default T where(String column, Object value) {
-        return where(column, "=", value);
+        return value != null ? where(column, "=", value) : whereNull(column);
+    }
+
+    default T whereIfPresent(String column, Object value) {
+        return value != null ? where(column, value) : whereRaw(null);
     }
 
     default T where(String column, boolean value) {
@@ -77,12 +81,12 @@ public interface WhereContract<T> {
         return whereRaw(column + " LIKE ?", Collections.singletonList("%" + value + "%"));
     }
 
-    default T whereBit(String column, int bit) {
-        return whereRaw(column + " & " + bit + " > 0", null);
+    default T whereOnBits(String column, int bits) {
+        return whereRaw(column + " & " + bits + " > 0", null);
     }
 
-    default T whereNotBit(String column, int bit) {
-        return whereRaw(column + " & " + bit + " = 0", null);
+    default T whereOffBits(String column, int bits) {
+        return whereRaw(column + " & " + bits + " = 0", null);
     }
 
 }

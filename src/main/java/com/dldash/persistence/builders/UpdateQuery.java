@@ -78,9 +78,11 @@ public final class UpdateQuery implements BuilderContract, WhereContract<UpdateQ
 
     @Override
     public UpdateQuery whereRaw(String sql, List<Object> bindings, String bool) {
-        wheres.append(wheres.length() > 0 ? bool : " WHERE ").append(sql);
-        if (bindings != null) {
-            whereBindings.addAll(bindings);
+        if (sql != null) {
+            wheres.append(wheres.length() > 0 ? bool : " WHERE ").append(sql);
+            if (bindings != null) {
+                whereBindings.addAll(bindings);
+            }
         }
         return this;
     }

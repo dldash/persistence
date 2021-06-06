@@ -1,5 +1,6 @@
 package com.dldash.persistence;
 
+import com.dldash.persistence.builders.SelectQuery;
 import com.dldash.persistence.contracts.Query;
 
 import java.util.List;
@@ -7,6 +8,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public abstract class BaseTest {
+
+    public SelectQuery query() {
+        return Query.builder().table("table");
+    }
 
     public String cleanup(Query query) {
         return query.sql().replaceAll("\\s+", " ").trim();

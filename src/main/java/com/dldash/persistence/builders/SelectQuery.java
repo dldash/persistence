@@ -1,7 +1,7 @@
 package com.dldash.persistence.builders;
 
-import com.dldash.persistence.contracts.Query;
 import com.dldash.persistence.contracts.BuilderContract;
+import com.dldash.persistence.contracts.Query;
 import com.dldash.persistence.contracts.WhereContract;
 import com.dldash.persistence.objects.ConcreteQuery;
 
@@ -14,7 +14,7 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
     private final List<String> select = new ArrayList<>();
 
     private boolean distinct = false;
-    private boolean calcFoundRows = false;
+    private boolean total = false;
 
     private String table;
     private String as;
@@ -54,18 +54,13 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
         return count("*");
     }
 
-    public SelectQuery max(String column) {
-        this.select.add("MAX(" + column + ")");
-        return this;
-    }
-
     public SelectQuery distinct() {
         this.distinct = true;
         return this;
     }
 
-    public SelectQuery calcFoundRows() {
-        this.calcFoundRows = true;
+    public SelectQuery total() {
+        this.total = true;
         return this;
     }
 
@@ -84,8 +79,13 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
         return this;
     }
 
-    public SelectQuery join(String table, String condition) {
-        this.joins.add("JOIN " + table + " ON " + condition);
+    public SelectQuery join(String table, String column) {
+        this.joins.add("JOIN " + table + " USING (" + column + ")");
+        return this;
+    }
+
+    public SelectQuery join(String raw) {
+        this.joins.add("JOIN " + raw);
         return this;
     }
 
@@ -94,8 +94,13 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
         return this;
     }
 
-    public SelectQuery leftJoin(String table, String condition) {
-        this.joins.add("LEFT JOIN " + table + " ON " + condition);
+    public SelectQuery leftJoin(String table, String column) {
+        this.joins.add("LEFT JOIN " + table + " USING (" + column + ")");
+        return this;
+    }
+
+    public SelectQuery leftJoin(String raw) {
+        this.joins.add("LEFT JOIN " + raw);
         return this;
     }
 
@@ -135,7 +140,7 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
     private String selectClause() {
         StringBuilder sql = new StringBuilder(" SELECT ");
 
-        if (calcFoundRows) {
+        if (total) {
             sql.append(" SQL_CALC_FOUND_ROWS ");
         }
 

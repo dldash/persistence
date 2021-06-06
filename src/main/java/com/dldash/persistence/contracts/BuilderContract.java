@@ -1,6 +1,6 @@
 package com.dldash.persistence.contracts;
 
-public interface QueryBuilderContract {
+public interface BuilderContract {
 
     Query build();
 

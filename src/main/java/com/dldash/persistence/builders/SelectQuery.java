@@ -1,7 +1,7 @@
 package com.dldash.persistence.builders;
 
 import com.dldash.persistence.contracts.Query;
-import com.dldash.persistence.contracts.QueryBuilderContract;
+import com.dldash.persistence.contracts.BuilderContract;
 import com.dldash.persistence.contracts.WhereContract;
 import com.dldash.persistence.queries.ConcreteQuery;
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public final class DatabaseQuery implements QueryBuilderContract, WhereContract<DatabaseQuery> {
+public final class SelectQuery implements BuilderContract, WhereContract<SelectQuery> {
 
     private final List<String> select = new ArrayList<>();
 
@@ -32,103 +32,103 @@ public final class DatabaseQuery implements QueryBuilderContract, WhereContract<
     private int limit;
     private int offset;
 
-    public static DatabaseQuery builder() {
-        return new DatabaseQuery();
+    public static SelectQuery builder() {
+        return new SelectQuery();
     }
 
-    private DatabaseQuery() {
+    private SelectQuery() {
 
     }
 
-    public DatabaseQuery select(String... select) {
+    public SelectQuery select(String... select) {
         this.select.addAll(Arrays.asList(select));
         return this;
     }
 
-    public DatabaseQuery count(String column) {
+    public SelectQuery count(String column) {
         this.select.add("COUNT(" + column + ")");
         return this;
     }
 
-    public DatabaseQuery count() {
+    public SelectQuery count() {
         return count("*");
     }
 
-    public DatabaseQuery max(String column) {
+    public SelectQuery max(String column) {
         this.select.add("MAX(" + column + ")");
         return this;
     }
 
-    public DatabaseQuery distinct() {
+    public SelectQuery distinct() {
         this.distinct = true;
         return this;
     }
 
-    public DatabaseQuery calcFoundRows() {
+    public SelectQuery calcFoundRows() {
         this.calcFoundRows = true;
         return this;
     }
 
-    public DatabaseQuery table(String table) {
+    public SelectQuery table(String table) {
         this.table = table;
         return this;
     }
 
-    public DatabaseQuery as(String as) {
+    public SelectQuery as(String as) {
         this.as = as;
         return this;
     }
 
-    public DatabaseQuery join(String table, String first, String operator, String second) {
+    public SelectQuery join(String table, String first, String operator, String second) {
         this.joins.add("JOIN " + table + " ON " + first + " " + operator + " " + second);
         return this;
     }
 
-    public DatabaseQuery join(String table, String condition) {
+    public SelectQuery join(String table, String condition) {
         this.joins.add("JOIN " + table + " ON " + condition);
         return this;
     }
 
-    public DatabaseQuery leftJoin(String table, String first, String operator, String second) {
+    public SelectQuery leftJoin(String table, String first, String operator, String second) {
         this.joins.add("LEFT JOIN " + table + " ON " + first + " " + operator + " " + second);
         return this;
     }
 
-    public DatabaseQuery leftJoin(String table, String condition) {
+    public SelectQuery leftJoin(String table, String condition) {
         this.joins.add("LEFT JOIN " + table + " ON " + condition);
         return this;
     }
 
-    public DatabaseQuery groupBy(String... columns) {
+    public SelectQuery groupBy(String... columns) {
         this.groupBy.addAll(Arrays.asList(columns));
         return this;
     }
 
-    public DatabaseQuery orderBy(String column) {
+    public SelectQuery orderBy(String column) {
         return orderBy(column, "asc");
     }
 
-    public DatabaseQuery orderBy(String column, String direction) {
+    public SelectQuery orderBy(String column, String direction) {
         this.orderBy = column;
         this.descending = direction.equalsIgnoreCase("desc");
         return this;
     }
 
-    public DatabaseQuery limit(int limit) {
+    public SelectQuery limit(int limit) {
         this.limit = limit;
         return this;
     }
 
-    public DatabaseQuery take(int take) {
+    public SelectQuery take(int take) {
         return limit(take);
     }
 
-    public DatabaseQuery offset(int offset) {
+    public SelectQuery offset(int offset) {
         this.offset = offset;
         return this;
     }
 
-    public DatabaseQuery skip(int skip) {
+    public SelectQuery skip(int skip) {
         return offset(skip);
     }
 
@@ -197,7 +197,7 @@ public final class DatabaseQuery implements QueryBuilderContract, WhereContract<
     }
 
     @Override
-    public DatabaseQuery whereRaw(String sql, List<Object> bindings, String bool) {
+    public SelectQuery whereRaw(String sql, List<Object> bindings, String bool) {
         wheres.append(wheres.length() > 0 ? bool : " WHERE ").append(sql);
         if (bindings != null) {
             this.whereBindings.addAll(bindings);

@@ -1,7 +1,7 @@
 package com.dldash.persistence.builders;
 
 import com.dldash.persistence.contracts.Query;
-import com.dldash.persistence.contracts.QueryBuilderContract;
+import com.dldash.persistence.contracts.BuilderContract;
 import com.dldash.persistence.contracts.WhereContract;
 import com.dldash.persistence.objects.Raw;
 import com.dldash.persistence.queries.ConcreteQuery;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
-public final class UpdateQuery implements QueryBuilderContract, WhereContract<UpdateQuery> {
+public final class UpdateQuery implements BuilderContract, WhereContract<UpdateQuery> {
 
     private String table;
 

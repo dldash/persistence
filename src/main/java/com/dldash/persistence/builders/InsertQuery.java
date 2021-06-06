@@ -1,14 +1,14 @@
 package com.dldash.persistence.builders;
 
 import com.dldash.persistence.contracts.Query;
-import com.dldash.persistence.contracts.QueryBuilderContract;
+import com.dldash.persistence.contracts.BuilderContract;
 import com.dldash.persistence.objects.Raw;
 import com.dldash.persistence.queries.ConcreteQuery;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class InsertQuery implements QueryBuilderContract {
+public final class InsertQuery implements BuilderContract {
 
     private boolean ignore = false;
 

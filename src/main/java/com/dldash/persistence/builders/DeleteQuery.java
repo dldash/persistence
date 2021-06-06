@@ -1,14 +1,14 @@
 package com.dldash.persistence.builders;
 
 import com.dldash.persistence.contracts.Query;
-import com.dldash.persistence.contracts.QueryBuilderContract;
+import com.dldash.persistence.contracts.BuilderContract;
 import com.dldash.persistence.contracts.WhereContract;
 import com.dldash.persistence.queries.ConcreteQuery;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class DeleteQuery implements QueryBuilderContract, WhereContract<DeleteQuery> {
+public final class DeleteQuery implements BuilderContract, WhereContract<DeleteQuery> {
 
     private String table;
 

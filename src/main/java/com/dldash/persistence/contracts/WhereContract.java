@@ -1,14 +1,22 @@
 package com.dldash.persistence.contracts;
 
+import com.dldash.persistence.builders.WhereQuery;
+import com.dldash.persistence.enums.Bool;
+
 import java.util.Collections;
 import java.util.List;
+import java.util.function.UnaryOperator;
 
 public interface WhereContract<T> {
 
-    T whereRaw(String sql, List<Object> bindings, String bool);
+    T whereRaw(String sql, List<Object> bindings, Bool bool);
+
+    default T empty() {
+        return whereRaw(null);
+    }
 
     default T whereRaw(String sql, List<Object> bindings) {
-        return whereRaw(sql, bindings, " AND ");
+        return whereRaw(sql, bindings, Bool.AND);
     }
 
     default T whereRaw(String sql) {
@@ -16,7 +24,7 @@ public interface WhereContract<T> {
     }
 
     default T orWhereRaw(String sql, List<Object> bindings) {
-        return whereRaw(sql, bindings, " OR ");
+        return whereRaw(sql, bindings, Bool.OR);
     }
 
     default T orWhereRaw(String sql) {
@@ -32,7 +40,7 @@ public interface WhereContract<T> {
     }
 
     default T whereIfPresent(String column, Object value) {
-        return value != null ? where(column, value) : whereRaw(null);
+        return value != null ? where(column, value) : empty();
     }
 
     default T where(String column, boolean value) {
@@ -87,6 +95,22 @@ public interface WhereContract<T> {
 
     default T whereOffBits(String column, int bits) {
         return whereRaw(column + " & " + bits + " = 0", null);
+    }
+
+    default T where(UnaryOperator<WhereQuery> operator, Bool bool) {
+        Query query = operator.apply(WhereQuery.builder()).build();
+        if (query.sql() != null && !query.sql().isEmpty()) {
+            return whereRaw("(" + query.sql() + ")", query.bindings(), bool);
+        }
+        return empty();
+    }
+
+    default T where(UnaryOperator<WhereQuery> operator) {
+        return where(operator, Bool.AND);
+    }
+
+    default T orWhere(UnaryOperator<WhereQuery> operator) {
+        return where(operator, Bool.OR);
     }
 
 }

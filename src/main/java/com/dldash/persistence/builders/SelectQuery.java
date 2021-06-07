@@ -3,6 +3,7 @@ package com.dldash.persistence.builders;
 import com.dldash.persistence.contracts.BuilderContract;
 import com.dldash.persistence.contracts.Query;
 import com.dldash.persistence.contracts.WhereContract;
+import com.dldash.persistence.enums.Bool;
 import com.dldash.persistence.objects.ConcreteQuery;
 
 import java.util.ArrayList;
@@ -202,9 +203,9 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
     }
 
     @Override
-    public SelectQuery whereRaw(String sql, List<Object> bindings, String bool) {
+    public SelectQuery whereRaw(String sql, List<Object> bindings, Bool bool) {
         if (sql != null) {
-            wheres.append(wheres.length() > 0 ? bool : " WHERE ").append(sql);
+            wheres.append(wheres.length() > 0 ? bool.value() : " WHERE ").append(sql);
             if (bindings != null) {
                 this.whereBindings.addAll(bindings);
             }

@@ -6,15 +6,13 @@ import com.dldash.persistence.contracts.WhereContract;
 import com.dldash.persistence.enums.Bool;
 import com.dldash.persistence.objects.ConcreteQuery;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public final class DeleteQuery implements BuilderContract, WhereContract<DeleteQuery> {
 
     private String table;
 
-    private final StringBuilder wheres = new StringBuilder();
-    private final List<Object> whereBindings = new ArrayList<>();
+    private final WhereQuery where = WhereQuery.builder();
 
     public static DeleteQuery builder() {
         return new DeleteQuery();
@@ -30,21 +28,20 @@ public final class DeleteQuery implements BuilderContract, WhereContract<DeleteQ
     }
 
     private String sql() {
+        Query whereClause = where.build();
+
+        String wheres = !whereClause.sql().isEmpty() ? " WHERE " + whereClause.sql() : "";
+
         return "DELETE FROM " + table + wheres;
     }
 
     private List<Object> bindings() {
-        return whereBindings;
+        return where.build().bindings();
     }
 
     @Override
     public DeleteQuery whereRaw(String sql, List<Object> bindings, Bool bool) {
-        if (sql != null) {
-            wheres.append(wheres.length() > 0 ? bool.value() : " WHERE ").append(sql);
-            if (bindings != null) {
-                this.whereBindings.addAll(bindings);
-            }
-        }
+        where.whereRaw(sql, bindings, bool);
         return this;
     }
 

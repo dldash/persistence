@@ -22,8 +22,7 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
 
     private final List<String> joins = new ArrayList<>();
 
-    private final StringBuilder wheres = new StringBuilder();
-    private final List<Object> whereBindings = new ArrayList<>();
+    private final WhereQuery where = WhereQuery.builder();
 
     private final List<String> groupBy = new ArrayList<>();
 
@@ -163,7 +162,9 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
     }
 
     private String whereClause() {
-        return wheres.toString();
+        Query whereClause = where.build();
+
+        return !whereClause.sql().isEmpty() ? " WHERE " + whereClause.sql() : "";
     }
 
     private String groupByClause() {
@@ -199,17 +200,12 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
     }
 
     private List<Object> bindings() {
-        return whereBindings;
+        return where.build().bindings();
     }
 
     @Override
     public SelectQuery whereRaw(String sql, List<Object> bindings, Bool bool) {
-        if (sql != null) {
-            wheres.append(wheres.length() > 0 ? bool.value() : " WHERE ").append(sql);
-            if (bindings != null) {
-                this.whereBindings.addAll(bindings);
-            }
-        }
+        where.whereRaw(sql, bindings, bool);
         return this;
     }
 

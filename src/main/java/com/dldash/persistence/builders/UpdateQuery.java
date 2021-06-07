@@ -18,8 +18,7 @@ public final class UpdateQuery implements BuilderContract, WhereContract<UpdateQ
     private final StringJoiner updates = new StringJoiner(", ");
     private final List<Object> updateBindings = new ArrayList<>();
 
-    private final StringBuilder wheres = new StringBuilder();
-    private final List<Object> whereBindings = new ArrayList<>();
+    private final WhereQuery where = WhereQuery.builder();
 
     public static UpdateQuery builder() {
         return new UpdateQuery();
@@ -68,23 +67,22 @@ public final class UpdateQuery implements BuilderContract, WhereContract<UpdateQ
     }
 
     private String sql() {
+        Query whereClause = where.build();
+
+        String wheres = !whereClause.sql().isEmpty() ? " WHERE " + whereClause.sql() : "";
+
         return "UPDATE " + table + " SET " + updates + wheres;
     }
 
     private List<Object> bindings() {
         List<Object> bindings = new ArrayList<>(updateBindings);
-        bindings.addAll(whereBindings);
+        bindings.addAll(where.build().bindings());
         return bindings;
     }
 
     @Override
     public UpdateQuery whereRaw(String sql, List<Object> bindings, Bool bool) {
-        if (sql != null) {
-            wheres.append(wheres.length() > 0 ? bool.value() : " WHERE ").append(sql);
-            if (bindings != null) {
-                whereBindings.addAll(bindings);
-            }
-        }
+        where.whereRaw(sql, bindings, bool);
         return this;
     }
 

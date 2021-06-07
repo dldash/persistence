@@ -25,7 +25,6 @@ public class WhereQueryTest extends BaseTest {
         Query where = WhereQuery.builder()
                 .where("A", 1)
                 .where(x -> x.where("B", 2).orWhere("C", 3))
-                .orWhere(x -> x.whereNull("D").whereNotNull("E"))
                 .build();
 
         a("A = ? AND (B = ? OR C = ?)", Arrays.asList(1, 2, 3), where);

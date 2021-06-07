@@ -24,15 +24,17 @@ public final class WhereQuery implements BuilderContract, WhereContract<WhereQue
 
     @Override
     public WhereQuery whereRaw(String sql, List<Object> bindings, Bool bool) {
-        if (sql != null) {
+        if (sql != null && !sql.isEmpty()) {
             if (wheres.length() > 0) {
                 wheres.append(bool.value());
             }
             wheres.append(sql);
         }
+
         if (bindings != null && !bindings.isEmpty()) {
             this.bindings.addAll(bindings);
         }
+
         return this;
     }
 

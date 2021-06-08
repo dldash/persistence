@@ -55,19 +55,19 @@ public interface WhereContract<T> {
     }
 
     default T whereNull(String column) {
-        return whereRaw(column + " IS NULL", null);
+        return whereRaw(column + " IS NULL");
     }
 
     default T orWhereNull(String column) {
-        return orWhereRaw(column + " IS NULL", null);
+        return orWhereRaw(column + " IS NULL");
     }
 
     default T whereNotNull(String column) {
-        return whereRaw(column + " IS NOT NULL", null);
+        return whereRaw(column + " IS NOT NULL");
     }
 
     default T orWhereNotNull(String column) {
-        return orWhereRaw(column + " IS NOT NULL", null);
+        return orWhereRaw(column + " IS NOT NULL");
     }
 
     default T whereIn(String column, List<Object> values) {
@@ -108,16 +108,32 @@ public interface WhereContract<T> {
         return whereRaw("DATE(" + column + ") = ?", Collections.singletonList(value));
     }
 
+    default T whereMonth(String column, Object value) {
+        return whereRaw("MONTH(" + column + ") = ?", Collections.singletonList(value));
+    }
+
+    default T whereDay(String column, Object value) {
+        return whereRaw("DAY(" + column + ") = ?", Collections.singletonList(value));
+    }
+
+    default T whereYear(String column, Object value) {
+        return whereRaw("YEAR(" + column + ") = ?", Collections.singletonList(value));
+    }
+
+    default T whereTime(String column, Object value) {
+        return whereRaw("TIME(" + column + ") = ?", Collections.singletonList(value));
+    }
+
     default T whereContains(String column, Object value) {
         return whereRaw(column + " LIKE ?", Collections.singletonList("%" + value + "%"));
     }
 
     default T whereOnBits(String column, int bits) {
-        return whereRaw(column + " & " + bits + " > 0", null);
+        return whereRaw(column + " & " + bits + " > 0");
     }
 
     default T whereOffBits(String column, int bits) {
-        return whereRaw(column + " & " + bits + " = 0", null);
+        return whereRaw(column + " & " + bits + " = 0");
     }
 
     default T where(UnaryOperator<WhereQuery> operator, Bool bool) {

@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test;
 public class SelectQueryTest extends BaseTest {
 
     @Test
-    public void allColumns() {
+    public void all() {
         a("SELECT * FROM table", query().build());
     }
 
     @Test
-    public void specificColumns() {
+    public void columns() {
         Query query = query()
                 .select("Id", "Name")
                 .select("CreatedAt")

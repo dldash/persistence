@@ -5,6 +5,8 @@ import com.dldash.persistence.enums.Bool;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
 public interface WhereContract<T> {
@@ -115,6 +117,34 @@ public interface WhereContract<T> {
 
     default T orWhereIfPresent(String column, Object value) {
         return value != null ? orWhere(column, value) : whereRaw(null);
+    }
+
+    default T when(boolean condition, Consumer<WhereContract<T>> operator) {
+        if (condition) {
+            operator.accept(this);
+        }
+        return whereRaw(null);
+    }
+
+    default T when(String o, BiConsumer<WhereContract<T>, String> operator) {
+        if (o != null && !o.isEmpty()) {
+            operator.accept(this, o);
+        }
+        return whereRaw(null);
+    }
+
+    default T when(Integer o, BiConsumer<WhereContract<T>, Integer> operator) {
+        if (o != null && o > 0) {
+            operator.accept(this, o);
+        }
+        return whereRaw(null);
+    }
+
+    default <U> T when(U o, BiConsumer<WhereContract<T>, U> operator) {
+        if (o != null) {
+            operator.accept(this, o);
+        }
+        return whereRaw(null);
     }
 
 }

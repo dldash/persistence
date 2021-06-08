@@ -3,6 +3,7 @@ package com.dldash.persistence.contracts;
 import com.dldash.persistence.builders.WhereQuery;
 import com.dldash.persistence.enums.Bool;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -77,6 +78,30 @@ public interface WhereContract<T> {
     default T whereNotIn(String column, List<Object> values) {
         List<String> bindings = Collections.nCopies(values.size(), "?");
         return whereRaw(column + " IN NOT (" + String.join(", ", bindings) + ")", values);
+    }
+
+    default T whereBetween(String column, Number from, Number to, Bool bool) {
+        if (from != null && to != null) {
+            return whereRaw("(" + column + " >= ? AND " + column + " <= ?)", Arrays.asList(from, to), bool);
+        }
+
+        if (from != null) {
+            return whereRaw(column + " >= ?", Collections.singletonList(from), bool);
+        }
+
+        if (to != null) {
+            return whereRaw(column + " <= ?", Collections.singletonList(to), bool);
+        }
+
+        return whereRaw(null);
+    }
+
+    default T whereBetween(String column, Number from, Number to) {
+        return whereBetween(column, from, to, Bool.AND);
+    }
+
+    default T orWhereBetween(String column, Number from, Number to) {
+        return whereBetween(column, from, to, Bool.OR);
     }
 
     default T whereDate(String column, Object value) {

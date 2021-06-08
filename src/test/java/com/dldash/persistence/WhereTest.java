@@ -110,4 +110,14 @@ public class WhereTest extends BaseTest {
         a("SELECT * FROM table WHERE DATE(a) = ?", query().whereDate("a", "").build());
     }
 
+    @Test
+    public void between() {
+        Query query = query()
+                .whereBetween("A", 1, 100)
+                .orWhereBetween("B", 10, null)
+                .build();
+
+        a("SELECT * FROM table WHERE (A >= ? AND A <= ?) OR B >= ?", Arrays.asList(1, 100, 10), query);
+    }
+
 }

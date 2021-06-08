@@ -137,7 +137,7 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
         return offset(skip);
     }
 
-    private String selectClause() {
+    private String select() {
         StringBuilder sql = new StringBuilder(" SELECT ");
 
         if (total) {
@@ -153,35 +153,35 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
         return sql.toString();
     }
 
-    private String fromClause() {
+    private String from() {
         return " FROM " + table + (as != null ? " AS " + as : "");
     }
 
-    private String joinClause() {
+    private String join() {
         return " " + String.join(" ", joins) + " ";
     }
 
-    private String whereClause() {
-        Query whereQuery = where.build();
+    private String where() {
+        Query query = where.build();
 
-        return !whereQuery.sql().isEmpty() ? " WHERE " + whereQuery.sql() : "";
+        return !query.sql().isEmpty() ? " WHERE " + query.sql() : "";
     }
 
-    private String groupByClause() {
+    private String groupBy() {
         if (groupBy.isEmpty()) {
             return "";
         }
         return " GROUP BY " + String.join(", ", groupBy);
     }
 
-    private String orderByClause() {
+    private String orderBy() {
         if (orderBy == null) {
             return "";
         }
         return " ORDER BY " + orderBy + (descending ? " DESC " : "");
     }
 
-    private String limitClause() {
+    private String limit() {
         if (limit <= 0) {
             return "";
         }
@@ -189,14 +189,7 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
     }
 
     private String sql() {
-        return "" +
-                selectClause() +
-                fromClause() +
-                joinClause() +
-                whereClause() +
-                groupByClause() +
-                orderByClause() +
-                limitClause();
+        return select() + from() + join() + where() + groupBy() + orderBy() + limit();
     }
 
     private List<Object> bindings() {

@@ -1,9 +1,9 @@
 package com.dldash.persistence.builders;
 
-import com.dldash.persistence.contracts.Query;
 import com.dldash.persistence.contracts.BuilderContract;
-import com.dldash.persistence.objects.Raw;
+import com.dldash.persistence.contracts.Query;
 import com.dldash.persistence.objects.ConcreteQuery;
+import com.dldash.persistence.objects.Raw;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ public final class InsertQuery implements BuilderContract {
     private String table;
 
     private final List<String> columns = new ArrayList<>();
-    private final List<String> params = new ArrayList<>();
+    private final List<String> assignments = new ArrayList<>();
     private final List<Object> bindings = new ArrayList<>();
 
     private final List<String> duplicateKeyAssignments = new ArrayList<>();
@@ -41,14 +41,14 @@ public final class InsertQuery implements BuilderContract {
 
     public InsertQuery insert(String column, Object value) {
         columns.add(column);
-        params.add("?");
+        assignments.add("?");
         bindings.add(value);
         return this;
     }
 
     public InsertQuery insert(String column, Raw raw) {
         columns.add(column);
-        params.add(raw.value());
+        assignments.add(raw.value());
         return this;
     }
 
@@ -69,15 +69,15 @@ public final class InsertQuery implements BuilderContract {
         return ignore ? "IGNORE" : "";
     }
 
-    private String columnClause() {
+    private String columns() {
         return "(" + String.join(", ", columns) + ")";
     }
 
-    private String paramClause() {
-        return "(" + String.join(", ", params) + ")";
+    private String params() {
+        return "(" + String.join(", ", assignments) + ")";
     }
 
-    private String onDuplicateKeyUpdateClause() {
+    private String duplicateKeyUpdateClause() {
         if (duplicateKeyAssignments.isEmpty()) {
             return "";
         }
@@ -88,9 +88,9 @@ public final class InsertQuery implements BuilderContract {
         return "" +
                 " INSERT " + ignoreClause() +
                 "   INTO " + table +
-                " " + columnClause() +
-                " VALUES " + paramClause() +
-                " " + onDuplicateKeyUpdateClause();
+                " " + columns() +
+                " VALUES " + params() +
+                " " + duplicateKeyUpdateClause();
     }
 
     private List<Object> bindings() {

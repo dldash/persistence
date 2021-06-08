@@ -28,9 +28,9 @@ public final class DeleteQuery implements BuilderContract, WhereContract<DeleteQ
     }
 
     private String sql() {
-        Query whereQuery = where.build();
+        Query query = where.build();
 
-        String whereClause = !whereQuery.sql().isEmpty() ? " WHERE " + whereQuery.sql() : "";
+        String whereClause = !query.sql().isEmpty() ? " WHERE " + query.sql() : "";
 
         return "DELETE FROM " + table + whereClause;
     }

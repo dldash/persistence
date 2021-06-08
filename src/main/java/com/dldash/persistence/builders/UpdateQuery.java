@@ -15,8 +15,8 @@ public final class UpdateQuery implements BuilderContract, WhereContract<UpdateQ
 
     private String table;
 
-    private final StringJoiner updates = new StringJoiner(", ");
-    private final List<Object> updateBindings = new ArrayList<>();
+    private final StringJoiner assignments = new StringJoiner(", ");
+    private final List<Object> bindings = new ArrayList<>();
 
     private final WhereQuery where = WhereQuery.builder();
 
@@ -34,8 +34,8 @@ public final class UpdateQuery implements BuilderContract, WhereContract<UpdateQ
     }
 
     public UpdateQuery update(String column, Object value) {
-        updates.add(column + " = ?");
-        updateBindings.add(value);
+        assignments.add(column + " = ?");
+        bindings.add(value);
         return this;
     }
 
@@ -47,35 +47,35 @@ public final class UpdateQuery implements BuilderContract, WhereContract<UpdateQ
     }
 
     public UpdateQuery update(String column, Raw raw) {
-        updates.add(column + " = " + (raw != null ? raw.value() : "NULL"));
+        assignments.add(column + " = " + (raw != null ? raw.value() : "NULL"));
         return this;
     }
 
     public UpdateQuery updateBits(String column, int bitsToTurnOn, int bitsToTurnOff) {
-        updates.add(column + " = (IFNULL(" + column + ", 0) | " + bitsToTurnOn + ") &~ " + bitsToTurnOff);
+        assignments.add(column + " = (IFNULL(" + column + ", 0) | " + bitsToTurnOn + ") &~ " + bitsToTurnOff);
         return this;
     }
 
     public UpdateQuery turnOnBits(String column, int bits) {
-        updates.add(column + " = IFNULL(" + column + ", 0) | " + bits);
+        assignments.add(column + " = IFNULL(" + column + ", 0) | " + bits);
         return this;
     }
 
     public UpdateQuery turnOffBits(String column, int bits) {
-        updates.add(column + " = IFNULL(" + column + ", 0) &~ " + bits);
+        assignments.add(column + " = IFNULL(" + column + ", 0) &~ " + bits);
         return this;
     }
 
     private String sql() {
-        Query whereClause = where.build();
+        Query whereQuery = where.build();
 
-        String wheres = !whereClause.sql().isEmpty() ? " WHERE " + whereClause.sql() : "";
+        String whereClause = !whereQuery.sql().isEmpty() ? " WHERE " + whereQuery.sql() : "";
 
-        return "UPDATE " + table + " SET " + updates + wheres;
+        return "UPDATE " + table + " SET " + assignments + whereClause;
     }
 
     private List<Object> bindings() {
-        List<Object> bindings = new ArrayList<>(updateBindings);
+        List<Object> bindings = new ArrayList<>(this.bindings);
         bindings.addAll(where.build().bindings());
         return bindings;
     }

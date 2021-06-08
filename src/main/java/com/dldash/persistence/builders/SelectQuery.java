@@ -162,9 +162,9 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
     }
 
     private String whereClause() {
-        Query whereClause = where.build();
+        Query whereQuery = where.build();
 
-        return !whereClause.sql().isEmpty() ? " WHERE " + whereClause.sql() : "";
+        return !whereQuery.sql().isEmpty() ? " WHERE " + whereQuery.sql() : "";
     }
 
     private String groupByClause() {

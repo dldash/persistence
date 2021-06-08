@@ -28,11 +28,11 @@ public final class DeleteQuery implements BuilderContract, WhereContract<DeleteQ
     }
 
     private String sql() {
-        Query whereClause = where.build();
+        Query whereQuery = where.build();
 
-        String wheres = !whereClause.sql().isEmpty() ? " WHERE " + whereClause.sql() : "";
+        String whereClause = !whereQuery.sql().isEmpty() ? " WHERE " + whereQuery.sql() : "";
 
-        return "DELETE FROM " + table + wheres;
+        return "DELETE FROM " + table + whereClause;
     }
 
     private List<Object> bindings() {

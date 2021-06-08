@@ -18,8 +18,8 @@ public final class InsertQuery implements BuilderContract {
     private final List<String> params = new ArrayList<>();
     private final List<Object> bindings = new ArrayList<>();
 
-    private final List<String> duplicateKeyUpdates = new ArrayList<>();
-    private final List<Object> duplicateKeyUpdateBindings = new ArrayList<>();
+    private final List<String> duplicateKeyAssignments = new ArrayList<>();
+    private final List<Object> duplicateKeyBindings = new ArrayList<>();
 
     public static InsertQuery builder() {
         return new InsertQuery();
@@ -54,14 +54,14 @@ public final class InsertQuery implements BuilderContract {
 
     public InsertQuery insertOrUpdate(String column, Object value) {
         insert(column, value);
-        duplicateKeyUpdates.add(column + " = ?");
-        duplicateKeyUpdateBindings.add(value);
+        duplicateKeyAssignments.add(column + " = ?");
+        duplicateKeyBindings.add(value);
         return this;
     }
 
     public InsertQuery insertOrUpdate(String column, Raw raw) {
         insert(column, raw);
-        duplicateKeyUpdates.add(column + " = " + raw.value());
+        duplicateKeyAssignments.add(column + " = " + raw.value());
         return this;
     }
 
@@ -78,10 +78,10 @@ public final class InsertQuery implements BuilderContract {
     }
 
     private String onDuplicateKeyUpdateClause() {
-        if (duplicateKeyUpdates.isEmpty()) {
+        if (duplicateKeyAssignments.isEmpty()) {
             return "";
         }
-        return "ON DUPLICATE KEY UPDATE " + String.join(", ", duplicateKeyUpdates);
+        return "ON DUPLICATE KEY UPDATE " + String.join(", ", duplicateKeyAssignments);
     }
 
     private String sql() {
@@ -95,7 +95,7 @@ public final class InsertQuery implements BuilderContract {
 
     private List<Object> bindings() {
         List<Object> values = new ArrayList<>(bindings);
-        values.addAll(duplicateKeyUpdateBindings);
+        values.addAll(duplicateKeyBindings);
         return values;
     }
 

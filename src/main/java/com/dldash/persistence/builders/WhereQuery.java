@@ -11,7 +11,7 @@ import java.util.List;
 
 public final class WhereQuery implements BuilderContract, WhereContract<WhereQuery> {
 
-    private final StringBuilder wheres = new StringBuilder();
+    private final StringBuilder sql = new StringBuilder();
     private final List<Object> bindings = new ArrayList<>();
 
     public static WhereQuery builder() {
@@ -25,10 +25,10 @@ public final class WhereQuery implements BuilderContract, WhereContract<WhereQue
     @Override
     public WhereQuery whereRaw(String sql, List<Object> bindings, Bool bool) {
         if (sql != null && !sql.isEmpty()) {
-            if (wheres.length() > 0) {
-                wheres.append(bool.value());
+            if (this.sql.length() > 0) {
+                this.sql.append(bool.value());
             }
-            wheres.append(sql);
+            this.sql.append(sql);
         }
 
         if (bindings != null && !bindings.isEmpty()) {
@@ -40,7 +40,7 @@ public final class WhereQuery implements BuilderContract, WhereContract<WhereQue
 
     @Override
     public Query build() {
-        return new ConcreteQuery(wheres.toString(), bindings);
+        return new ConcreteQuery(sql.toString(), bindings);
     }
 
 }

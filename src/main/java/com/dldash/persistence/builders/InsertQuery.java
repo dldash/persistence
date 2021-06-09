@@ -73,7 +73,7 @@ public final class InsertQuery implements BuilderContract {
         return "(" + String.join(", ", columns) + ")";
     }
 
-    private String params() {
+    private String assignments() {
         return "(" + String.join(", ", assignments) + ")";
     }
 
@@ -89,7 +89,7 @@ public final class InsertQuery implements BuilderContract {
                 " INSERT " + ignoreClause() +
                 "   INTO " + table +
                 " " + columns() +
-                " VALUES " + params() +
+                " VALUES " + assignments() +
                 " " + duplicateKeyUpdateClause();
     }
 

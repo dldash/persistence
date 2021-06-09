@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.dldash'
-version '0.1'
+version '0.1.0'
 
 repositories {
     mavenCentral()
@@ -17,4 +17,13 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+tasks.named('jar') {
+    manifest {
+        attributes(
+                'Implementation-Title': project.name,
+                'Implementation-Version': project.version
+        )
+    }
 }

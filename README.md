@@ -22,7 +22,7 @@ class UserController {
 
 ### Aggregates
 
-```
+```java
 Query query = Query.builder()
         .table("users")
         .count()
@@ -33,7 +33,7 @@ Query query = Query.builder()
 
 ### Specifying A Select Clause
 
-```
+```java
 Query query = Query.builder()
         .table("users")
         .select("name", "email as user_email")
@@ -42,7 +42,7 @@ Query query = Query.builder()
 
 The `distinct` method allows you to force the query to return distinct results:
 
-```
+```java
 Query query = Query.builder()
         .table("users")
         .distinct()
@@ -64,7 +64,7 @@ Query query = Query.builder()
 
 ### Left Join Clause
 
-```
+```java
 Query query = Query.builder()
         .table("users")
         .leftJoin("posts", "users.id", "=", "posts.user_id")

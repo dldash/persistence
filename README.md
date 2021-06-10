@@ -53,7 +53,7 @@ Query query = Query.builder()
 
 ### Inner Join Clause
 
-```
+```java
 Query query = Query.builder()
         .table("users")
         .join("contacts", "users.id", "=", "contacts.user_id")

@@ -36,28 +36,34 @@ java {
 
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
-//publishing {
-//    repositories {
-//        maven {
-//            name = "GitHubPackages"
-//            url = uri("https://maven.pkg.github.com/dldash/persistence")
-//            credentials {
-//                username = project.findProperty("gpr.user") ?: System.getenv("GITHIB_USERNAME")
-//                password = project.findProperty("gpr.key") ?: System.getenv("GITHIB_TOKEN")
-//            }
-//        }
-//    }
-//
-//    publications {
-//        gpr(MavenPublication) {
-//            from(components.java)
-//        }
-//    }
-//}
+/*
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/dldash/persistence")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("GITHIB_USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("GITHIB_TOKEN")
+            }
+        }
+    }
 
-// https://madhead.me/posts/no-bullshit-maven-publish
-// https://weibeld.net/java/publish-to-maven-central.html
-// https://dev.to/kengotoda/deploying-to-ossrh-with-gradle-in-2020-1lhi
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
+*/
+
+/**
+ * - https://madhead.me/posts/no-bullshit-maven-publish
+ * - https://weibeld.net/java/publish-to-maven-central.html
+ * - https://dev.to/kengotoda/deploying-to-ossrh-with-gradle-in-2020-1lhi
+ *
+ * alias gpg='docker run --rm -it -v $(pwd)/.gnupg:/root/.gnupg -e GPG_TTY=/dev/console vladgh/gpg'
+ */
 publishing {
     repositories {
         maven {

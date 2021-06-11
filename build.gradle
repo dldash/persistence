@@ -55,6 +55,9 @@ ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 //    }
 //}
 
+// https://madhead.me/posts/no-bullshit-maven-publish
+// https://weibeld.net/java/publish-to-maven-central.html
+// https://dev.to/kengotoda/deploying-to-ossrh-with-gradle-in-2020-1lhi
 publishing {
     repositories {
         maven {
@@ -69,23 +72,29 @@ publishing {
     }
 
     publications {
-        mavenJava(MavenPublication) {
+        maven(MavenPublication) {
+            from components.java
             pom {
-                groupId = 'io.github.dldash'
-                name = 'persistence'
-                description = 'Database Query Builder'
-                url = 'https://github.com/dldash/persistence'
-                from components.java
+                name = "persistence"
+                description = "Database Query Builder"
+                url = "https://github.com/dldash/persistence"
                 licenses {
                     license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        name = "The Apache License, Version 2.0"
+                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "dldash"
+                        name = "dldash"
+                        email = "dldash@noreply.github.com"
                     }
                 }
                 scm {
-                    connection = 'scm:git:git@github.com:dldash/persistence.git'
-                    developerConnection = 'scm:git:git@github.com:dldash/persistence.git'
-                    url = 'https://github.com/dldash/persistence'
+                    connection = "scm:git:git@github.com:dldash/persistence.git"
+                    developerConnection = "scm:git:git@github.com:dldash/persistence.git"
+                    url = "https://github.com/dldash/persistence"
                 }
             }
         }

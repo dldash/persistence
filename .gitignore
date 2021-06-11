@@ -1,4 +1,5 @@
 build
+.gnupg
 .gradle
 
 gradle.properties

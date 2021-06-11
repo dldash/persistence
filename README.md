@@ -1,4 +1,4 @@
-# 🍺 Database: Query Builder
+# 🍺 Database Query Builder
 
 ## ✨ Running Database Queries
 

@@ -1,4 +1,4 @@
-package com.dldash.persistence.objects;
+package io.github.dldash.persistence.objects;
 
 public final class Raw {
 

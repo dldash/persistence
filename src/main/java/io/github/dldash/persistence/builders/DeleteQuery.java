@@ -1,10 +1,10 @@
-package com.dldash.persistence.builders;
+package io.github.dldash.persistence.builders;
 
-import com.dldash.persistence.contracts.BuilderContract;
-import com.dldash.persistence.contracts.Query;
-import com.dldash.persistence.contracts.WhereContract;
-import com.dldash.persistence.enums.Bool;
-import com.dldash.persistence.objects.ConcreteQuery;
+import io.github.dldash.persistence.contracts.BuilderContract;
+import io.github.dldash.persistence.contracts.Query;
+import io.github.dldash.persistence.contracts.WhereContract;
+import io.github.dldash.persistence.enums.Bool;
+import io.github.dldash.persistence.objects.ConcreteQuery;
 
 import java.util.List;
 

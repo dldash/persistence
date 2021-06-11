@@ -1,4 +1,4 @@
-package com.dldash.persistence.contracts;
+package io.github.dldash.persistence.contracts;
 
 public interface BuilderContract {
 

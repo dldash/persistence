@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-group 'com.dldash'
+group 'io.github.dldash'
 version '0.1.0'
 
 repositories {

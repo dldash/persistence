@@ -1,4 +1,4 @@
-package com.dldash.persistence.enums;
+package io.github.dldash.persistence.enums;
 
 public enum Bool {
 

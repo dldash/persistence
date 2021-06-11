@@ -1,7 +1,7 @@
-package com.dldash.persistence;
+package io.github.dldash.persistence;
 
-import com.dldash.persistence.builders.InsertQuery;
-import com.dldash.persistence.contracts.Query;
+import io.github.dldash.persistence.builders.InsertQuery;
+import io.github.dldash.persistence.contracts.Query;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

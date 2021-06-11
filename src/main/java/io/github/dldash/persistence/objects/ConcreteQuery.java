@@ -1,6 +1,6 @@
-package com.dldash.persistence.objects;
+package io.github.dldash.persistence.objects;
 
-import com.dldash.persistence.contracts.Query;
+import io.github.dldash.persistence.contracts.Query;
 
 import java.util.List;
 

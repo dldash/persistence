@@ -1,6 +1,6 @@
-package com.dldash.persistence;
+package io.github.dldash.persistence;
 
-import com.dldash.persistence.contracts.Query;
+import io.github.dldash.persistence.contracts.Query;
 import org.junit.jupiter.api.Test;
 
 public class SelectQueryTest extends BaseTest {

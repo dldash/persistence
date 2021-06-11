@@ -1,7 +1,7 @@
-package com.dldash.persistence.contracts;
+package io.github.dldash.persistence.contracts;
 
-import com.dldash.persistence.builders.SelectQuery;
-import com.dldash.persistence.objects.Raw;
+import io.github.dldash.persistence.builders.SelectQuery;
+import io.github.dldash.persistence.objects.Raw;
 
 import java.util.List;
 

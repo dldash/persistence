@@ -1,7 +1,7 @@
-package com.dldash.persistence.contracts;
+package io.github.dldash.persistence.contracts;
 
-import com.dldash.persistence.builders.WhereQuery;
-import com.dldash.persistence.enums.Bool;
+import io.github.dldash.persistence.builders.WhereQuery;
+import io.github.dldash.persistence.enums.Bool;
 
 import java.util.Arrays;
 import java.util.Collections;

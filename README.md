@@ -5,7 +5,7 @@
 ### Retrieving All Rows From A Table
 
 ```java
-import com.dldash.persistence.contracts.Query;
+import io.github.dldash.persistence.contracts.Query;
 
 class UserController {
     public void index() {

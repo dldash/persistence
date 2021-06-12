@@ -11,6 +11,10 @@ public interface Query {
         return SelectQuery.builder();
     }
 
+    static SelectQuery table(String table) {
+        return builder().table(table);
+    }
+
     static Raw raw(String value) {
         return Raw.create(value);
     }

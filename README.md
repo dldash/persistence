@@ -152,6 +152,15 @@ Query.builder()
         .build();
 ```
 
+### Where if not null
+
+```java
+Query query = query()
+        .whereIfPresent("A", 1)
+        .whereIfPresent("B", null)
+        .build();
+```
+
 ## ✨ Insert Statements
 
 ```java

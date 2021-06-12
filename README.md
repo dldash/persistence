@@ -10,6 +10,7 @@
 * 👉 [Joins](#-joins)
 * 👉 [Basic Where Clauses](#-basic-where-clauses)
 * 👉 [Ordering, Grouping, Limit & Offset](#-ordering-grouping-limit--offset)
+* 👉 [Conditional Clauses](#-conditional-clauses)
 * 👉 [Insert Statements](#-insert-statements)
 * 👉 [Update Statements](#-update-statements)
 * 👉 [Delete Statements](#-delete-statements)
@@ -133,6 +134,21 @@ Query query = Query.builder()
         .table("users")
         .offset(10)
         .limit(5)
+        .build();
+```
+
+## ✨ Conditional Clauses
+
+Sometimes you may want certain query clauses to apply to a query based on another condition.
+For instance, you may only want to apply a `where` statement if a given input value is present on the incoming HTTP request.
+You may accomplish this using the `when method:
+
+```java
+String role = request.get("role");
+
+Query.builder()
+        .table("users")
+        .when(role, (query, value) -> query.where("role_id", value))
         .build();
 ```
 

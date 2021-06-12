@@ -80,6 +80,8 @@ Query query = Query.builder()
 ## ✨ Insert Statements
 
 ```java
+import io.github.dldash.persistence.builders.InsertQuery;
+
 Query query = InsertQuery.builder()
         .table("users")
         .insert("email", "kayla@example.com")

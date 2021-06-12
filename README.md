@@ -1,4 +1,4 @@
-# 💥 SQL Query Builder
+# 💥 Query Builder
 
 [![Maven Central][ico-maven]][url-maven]
 

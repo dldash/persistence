@@ -146,9 +146,9 @@ You may accomplish this using the `when` method:
 ```java
 String role = request.get("role");
 
-Query.builder()
+Query query = Query.builder()
         .table("users")
-        .when(role, (query, value) -> query.where("role_id", value))
+        .when(role, (q, value) -> q.where("role_id", value))
         .build();
 ```
 

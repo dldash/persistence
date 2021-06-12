@@ -28,6 +28,7 @@ public final class WhereQuery implements BuilderContract, WhereContract<WhereQue
             if (this.sql.length() > 0) {
                 this.sql.append(bool.value());
             }
+
             this.sql.append(sql);
         }
 

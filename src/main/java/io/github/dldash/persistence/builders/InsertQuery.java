@@ -15,11 +15,11 @@ public final class InsertQuery implements BuilderContract {
     private String table;
 
     private final List<String> columns = new ArrayList<>();
-    private final List<String> assignments = new ArrayList<>();
+    private final List<String> parameters = new ArrayList<>();
     private final List<Object> bindings = new ArrayList<>();
 
-    private final List<String> duplicateKeyAssignments = new ArrayList<>();
-    private final List<Object> duplicateKeyBindings = new ArrayList<>();
+    private final List<String> duplicateColumns = new ArrayList<>();
+    private final List<Object> duplicateBindings = new ArrayList<>();
 
     public static InsertQuery builder() {
         return new InsertQuery();
@@ -41,61 +41,57 @@ public final class InsertQuery implements BuilderContract {
 
     public InsertQuery insert(String column, Object value) {
         columns.add(column);
-        assignments.add("?");
+        parameters.add("?");
         bindings.add(value);
         return this;
     }
 
     public InsertQuery insert(String column, Raw raw) {
         columns.add(column);
-        assignments.add(raw.value());
+        parameters.add(raw.value());
         return this;
     }
 
     public InsertQuery insertOrUpdate(String column, Object value) {
         insert(column, value);
-        duplicateKeyAssignments.add(column + " = ?");
-        duplicateKeyBindings.add(value);
+        duplicateColumns.add(column + " = ?");
+        duplicateBindings.add(value);
         return this;
     }
 
     public InsertQuery insertOrUpdate(String column, Raw raw) {
         insert(column, raw);
-        duplicateKeyAssignments.add(column + " = " + raw.value());
+        duplicateColumns.add(column + " = " + raw.value());
         return this;
     }
 
     private String ignoreClause() {
-        return ignore ? "IGNORE" : "";
+        return ignore ? " IGNORE" : "";
     }
 
     private String columns() {
         return "(" + String.join(", ", columns) + ")";
     }
 
-    private String assignments() {
-        return "(" + String.join(", ", assignments) + ")";
+    private String parameters() {
+        return "(" + String.join(", ", parameters) + ")";
     }
 
-    private String duplicateKeyUpdateClause() {
-        if (duplicateKeyAssignments.isEmpty()) {
-            return "";
-        }
-        return "ON DUPLICATE KEY UPDATE " + String.join(", ", duplicateKeyAssignments);
+    private String updates() {
+        return !duplicateColumns.isEmpty() ? " ON DUPLICATE KEY UPDATE " + String.join(", ", duplicateColumns) : "";
     }
 
     private String sql() {
-        return "" +
-                " INSERT " + ignoreClause() +
-                "   INTO " + table +
-                " " + columns() +
-                " VALUES " + assignments() +
-                " " + duplicateKeyUpdateClause();
+        return "INSERT" + ignoreClause() + " INTO " + table + " " + columns() + " VALUES " + parameters() + updates();
     }
 
     private List<Object> bindings() {
         List<Object> values = new ArrayList<>(bindings);
-        values.addAll(duplicateKeyBindings);
+
+        if (!duplicateBindings.isEmpty()) {
+            values.addAll(duplicateBindings);
+        }
+
         return values;
     }
 

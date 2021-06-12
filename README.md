@@ -128,7 +128,71 @@ The example above will produce the following SQL:
 select * from users where votes > 100 or (name = 'Abigail' and votes > 50)
 ```
 
-// @TODO
+### Additional Where Clauses
+
+#### whereBetween / orWhereBetween
+
+```java
+Query query = Query.builder()
+        .table("users")
+        .whereBetween("votes", 1, 100)
+        .build();
+```
+
+#### whereIn / whereNotIn / orWhereIn / orWhereNotIn
+
+```java
+Query query = Query.builder()
+        .table("users")
+        .whereIn("id", Arrays.asList(1, 2, 3))
+        .build();
+```
+
+```java
+Query query = Query.builder()
+        .table("users")
+        .whereNotIn("id", Arrays.asList(1, 2, 3))
+        .build();
+```
+
+#### whereNull / whereNotNull / orWhereNull / orWhereNotNull
+
+```java
+Query query = Query.builder()
+        .table("users")
+        .whereNull("updated_at")
+        .whereNotNull("created_at")
+        .build();
+```
+
+#### whereDate / whereMonth / whereDay / whereYear / whereTime
+
+```java
+Query query = Query.builder()
+        .table("users")
+        .whereDate("created_at", "2016-12-31")
+        .whereMonth("created_at", "12")
+        .whereDay("created_at", "31")
+        .whereYear("created_at", "2016")
+        .whereTime("created_at", "11:20:45")
+        .build();
+```
+
+### Logical Grouping
+
+```java
+Query query = Query.builder()
+        .table("users")
+        .where("name", "=", "John")
+        .where(x -> x.where("votes", ">", 100).orWhere("title", "=", "Admin"))
+        .build();
+```
+
+The example above will produce the following SQL:
+
+```sql
+select * from users where name = 'John' and (votes > 100 or title = 'Admin')
+```
 
 ## ✨ Ordering, Grouping, Limit & Offset
 

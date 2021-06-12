@@ -2,6 +2,11 @@
 
 [![Maven Central][ico-maven]][url-maven]
 
+## 💡 Usage
+
+* 👉 [Running Database Queries](#-running-database-queries)
+* 👉 [Select Statements](#-select-statements)
+
 ## ✨ Running Database Queries
 
 ### Retrieving All Rows From A Table

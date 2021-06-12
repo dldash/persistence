@@ -9,7 +9,7 @@
 * 👉 [Raw Expressions](#-raw-expressions)
 * 👉 [Joins](#-joins)
 * 👉 [Basic Where Clauses](#-basic-where-clauses)
-* 👉 [Ordering, Grouping, Limit & Offset](#-basic-where-clauses)
+* 👉 [Ordering, Grouping, Limit & Offset](#-ordering-grouping-limit--offset)
 * 👉 [Insert Statements](#-insert-statements)
 * 👉 [Update Statements](#-update-statements)
 * 👉 [Delete Statements](#-delete-statements)
@@ -106,6 +106,35 @@ Query query = Query.builder()
         .build();
 ```
 
+### Grouping
+
+```java
+Query query = Query.builder()
+        .table("users")
+        .groupBy("account_id", "status")
+        .build();
+```
+
+### Limit & Offset
+
+```java
+Query query = Query.builder()
+        .table("users")
+        .skip(10)
+        .take(5)
+        .build();
+```
+
+Alternatively, you may use the `limit` and `offset` methods.
+These methods are functionally equivalent to the `take` and `skip` methods, respectively:
+
+```java
+Query query = Query.builder()
+        .table("users")
+        .offset(10)
+        .limit(5)
+        .build();
+```
 
 ## ✨ Insert Statements
 

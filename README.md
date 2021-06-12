@@ -94,6 +94,40 @@ Query query = Query.builder()
 
 ## ✨ Basic Where Clauses
 
+### Where Clauses
+
+```java
+Query query = Query.builder()
+        .table("users")
+        .where("votes", 100)
+        .where("age", ">", 35)
+        .build();
+```
+
+### Or Where Clauses
+
+```java
+Query query = Query.builder()
+        .table("users")
+        .where("votes", ">", 100)
+        .orWhere("name", "John")
+        .build();
+```
+
+```java
+Query query = Query.builder()
+        .table("users")
+        .where("votes", ">", 100)
+        .orWhere(x -> x.where("name", "Abigail").where("votes", ">", 50))
+        .build();
+```
+
+The example above will produce the following SQL:
+
+```sql
+select * from users where votes > 100 or (name = 'Abigail' and votes > 50)
+```
+
 // @TODO
 
 ## ✨ Ordering, Grouping, Limit & Offset

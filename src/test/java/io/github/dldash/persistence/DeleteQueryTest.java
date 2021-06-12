@@ -13,9 +13,10 @@ public class DeleteQueryTest extends BaseTest {
         Query query = DeleteQuery.builder()
                 .table("table")
                 .where("A", 1)
+                .whereNotNull("B")
                 .build();
 
-        a("DELETE FROM table WHERE A = ?", Collections.singletonList(1), query);
+        a("DELETE FROM table WHERE A = ? AND B IS NOT NULL", Collections.singletonList(1), query);
     }
 
 }

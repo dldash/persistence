@@ -27,18 +27,6 @@ public final class DeleteQuery implements BuilderContract, WhereContract<DeleteQ
         return this;
     }
 
-    private String sql() {
-        Query query = where.build();
-
-        String whereClause = !query.sql().isEmpty() ? " WHERE " + query.sql() : "";
-
-        return "DELETE FROM " + table + whereClause;
-    }
-
-    private List<Object> bindings() {
-        return where.build().bindings();
-    }
-
     @Override
     public DeleteQuery whereRaw(String sql, List<Object> bindings, Bool bool) {
         where.whereRaw(sql, bindings, bool);
@@ -47,7 +35,15 @@ public final class DeleteQuery implements BuilderContract, WhereContract<DeleteQ
 
     @Override
     public Query build() {
-        return new ConcreteQuery(sql(), bindings());
+        Query whereQuery = where.build();
+
+        String whereClause = !whereQuery.sql().isEmpty() ? " WHERE " + whereQuery.sql() : "";
+
+        String sql = "DELETE FROM " + table + whereClause;
+
+        List<Object> bindings = where.build().bindings();
+
+        return new ConcreteQuery(sql, bindings);
     }
 
 }

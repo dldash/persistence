@@ -161,12 +161,6 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
         return " " + String.join(" ", joins) + " ";
     }
 
-    private String where() {
-        Query query = where.build();
-
-        return !query.sql().isEmpty() ? " WHERE " + query.sql() : "";
-    }
-
     private String groupBy() {
         if (groupBy.isEmpty()) {
             return "";
@@ -188,14 +182,6 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
         return " LIMIT " + (offset <= 0 ? "" : offset + ", ") + limit;
     }
 
-    private String sql() {
-        return select() + from() + join() + where() + groupBy() + orderBy() + limit();
-    }
-
-    private List<Object> bindings() {
-        return where.build().bindings();
-    }
-
     @Override
     public SelectQuery whereRaw(String sql, List<Object> bindings, Bool bool) {
         where.whereRaw(sql, bindings, bool);
@@ -204,7 +190,15 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
 
     @Override
     public Query build() {
-        return new ConcreteQuery(sql(), bindings());
+        Query whereQuery = where.build();
+
+        String whereClause = !whereQuery.sql().isEmpty() ? " WHERE " + whereQuery.sql() : "";
+
+        String sql = select() + from() + join() + whereClause + groupBy() + orderBy() + limit();
+
+        List<Object> bindings = whereQuery.bindings();
+
+        return new ConcreteQuery(sql, bindings);
     }
 
 }

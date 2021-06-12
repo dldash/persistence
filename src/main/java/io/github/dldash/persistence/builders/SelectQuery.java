@@ -25,9 +25,7 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
     private final WhereQuery where = WhereQuery.builder();
 
     private final List<String> groupBy = new ArrayList<>();
-
-    private String orderBy;
-    private boolean descending;
+    private final List<String> orderBy = new ArrayList<>();
 
     private int limit;
     private int offset;
@@ -118,8 +116,7 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
     }
 
     public SelectQuery orderBy(String column, String direction) {
-        this.orderBy = column;
-        this.descending = direction.equalsIgnoreCase("desc");
+        this.orderBy.add(column + (direction.equalsIgnoreCase("desc") ? " DESC" : ""));
         return this;
     }
 
@@ -176,24 +173,15 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
     }
 
     private String groupBy() {
-        if (groupBy.isEmpty()) {
-            return "";
-        }
-        return " GROUP BY " + String.join(", ", groupBy);
+        return !groupBy.isEmpty() ? " GROUP BY " + String.join(", ", groupBy) : "";
     }
 
     private String orderBy() {
-        if (orderBy == null) {
-            return "";
-        }
-        return " ORDER BY " + orderBy + (descending ? " DESC " : "");
+        return !orderBy.isEmpty() ? " ORDER BY " + String.join(", ", orderBy) : "";
     }
 
     private String limit() {
-        if (limit <= 0) {
-            return "";
-        }
-        return " LIMIT " + (offset <= 0 ? "" : offset + ", ") + limit;
+        return limit > 0 ? " LIMIT " + (offset <= 0 ? "" : offset + ", ") + limit : "";
     }
 
     @Override

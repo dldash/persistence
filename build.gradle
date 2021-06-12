@@ -1,11 +1,11 @@
 plugins {
+    id 'signing'
     id 'java-library'
     id 'maven-publish'
-    id 'signing'
 }
 
 group 'io.github.dldash'
-version '0.1.0'
+version '0.1.1'
 
 repositories {
     mavenCentral()

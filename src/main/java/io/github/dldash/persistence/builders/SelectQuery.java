@@ -109,6 +109,10 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
         return this;
     }
 
+    public SelectQuery orderBy(String column, boolean desc) {
+        return orderBy(column, desc ? "desc" : "asc");
+    }
+
     public SelectQuery orderBy(String column) {
         return orderBy(column, "asc");
     }

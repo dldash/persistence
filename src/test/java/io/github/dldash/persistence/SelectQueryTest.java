@@ -68,6 +68,13 @@ public class SelectQueryTest extends BaseTest {
 
         a("SELECT Id, Amount FROM table ORDER BY Amount", asc);
 
+        Query bool = query()
+                .select("Id", "Amount")
+                .orderBy("Amount", true)
+                .build();
+
+        a("SELECT Id, Amount FROM table ORDER BY Amount DESC", bool);
+
         Query desc = query()
                 .select("Id", "Amount")
                 .orderBy("Amount", "desc")

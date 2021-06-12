@@ -111,5 +111,39 @@ Query query = InsertQuery.builder()
         .build();
 ```
 
+## ✨ Update Statements
+
+```java
+import io.github.dldash.persistence.builders.UpdateQuery;
+
+Query query = UpdateQuery.builder()
+        .table("users")
+        .update("votes", 1)
+        .where("id", 1)
+        .build();
+```
+
+### Update if not null
+
+```java
+Query query = UpdateQuery.builder()
+        .table("users")
+        .update("votes", 1)
+        .updateIfPresent("name", null)
+        .where("id", 1)
+        .build();
+```
+
+## ✨ Delete Statements
+
+```java
+import io.github.dldash.persistence.builders.DeleteQuery;
+
+Query query = DeleteQuery.builder()
+        .table("users")
+        .where("votes", ">", 100)
+        .build();
+```
+
 [ico-maven]: https://img.shields.io/maven-central/v/io.github.dldash/persistence.svg?label=Maven%20Central&style=flat-square
 [url-maven]: https://search.maven.org/search?q=g:%22io.github.dldash%22%20AND%20a:%22persistence%22

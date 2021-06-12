@@ -11,14 +11,6 @@ public class InsertQueryTest extends BaseTest {
     @Test
     public void insert() {
         Query query = InsertQuery.builder()
-                .table("users")
-                .insert("email", "kayla@example.com")
-                .insertOrUpdate("votes", 10)
-                .insertOrUpdate("updated_at", Query.raw("NOW()"))
-                .build();
-
-
-        Query query1 = InsertQuery.builder()
                 .table("table")
                 .ignore()
                 .insert("A", 1)

@@ -9,6 +9,7 @@
 * 👉 [Raw Expressions](#-raw-expressions)
 * 👉 [Joins](#-joins)
 * 👉 [Basic Where Clauses](#-basic-where-clauses)
+* 👉 [Ordering, Grouping, Limit & Offset](#-basic-where-clauses)
 * 👉 [Insert Statements](#-insert-statements)
 * 👉 [Update Statements](#-update-statements)
 * 👉 [Delete Statements](#-delete-statements)
@@ -93,6 +94,18 @@ Query query = Query.builder()
 ## ✨ Basic Where Clauses
 
 // @TODO
+
+## ✨ Ordering, Grouping, Limit & Offset
+
+### Ordering
+
+```java
+Query query = Query.builder()
+        .table("users")
+        .orderBy("name", "desc")
+        .build();
+```
+
 
 ## ✨ Insert Statements
 

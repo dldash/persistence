@@ -83,6 +83,12 @@ public class SelectQueryTest extends BaseTest {
     }
 
     @Test
+    public void paginate() {
+        a("SELECT * FROM table LIMIT 10", query().paginate(10).build());
+        a("SELECT * FROM table LIMIT 40, 10", query().paginate(10, 5).build());
+    }
+
+    @Test
     public void join() {
         Query join = query()
                 .join("users", "users.Id", "=", "table.UserId")

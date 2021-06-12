@@ -137,6 +137,16 @@ public final class SelectQuery implements BuilderContract, WhereContract<SelectQ
         return offset(skip);
     }
 
+    public SelectQuery paginate(int perPage, int page) {
+        limit = perPage;
+        offset = (page - 1) * perPage;
+        return this;
+    }
+
+    public SelectQuery paginate(int perPage) {
+        return paginate(perPage, 1);
+    }
+
     private String select() {
         StringBuilder sql = new StringBuilder(" SELECT ");
 

@@ -22,8 +22,7 @@ public class InsertQueryTest extends BaseTest {
 
     @Test
     public void raw() {
-        Query query = InsertQuery.builder()
-                .table("table")
+        Query query = Query.insert("table")
                 .insert("A", Query.raw("NOW()"))
                 .build();
 

@@ -1,6 +1,5 @@
 package io.github.dldash.persistence;
 
-import io.github.dldash.persistence.builders.UpdateQuery;
 import io.github.dldash.persistence.contracts.Query;
 import org.junit.jupiter.api.Test;
 
@@ -10,8 +9,7 @@ public class UpdateQueryTest extends BaseTest {
 
     @Test
     public void update() {
-        Query query = UpdateQuery.builder()
-                .table("table")
+        Query query = Query.update("table")
                 .update("A", 1)
                 .update("B", null)
                 .update("C", Query.raw("NOW()"))
@@ -23,8 +21,7 @@ public class UpdateQueryTest extends BaseTest {
 
     @Test
     public void updateIfPresent() {
-        Query query = UpdateQuery.builder()
-                .table("table")
+        Query query = Query.update("table")
                 .updateIfPresent("A", 1)
                 .updateIfPresent("B", null)
                 .where("C", 2)
@@ -35,8 +32,7 @@ public class UpdateQueryTest extends BaseTest {
 
     @Test
     public void bits() {
-        Query query = UpdateQuery.builder()
-                .table("table")
+        Query query = Query.update("table")
                 .updateBits("A", 1 << 1, 1 << 2)
                 .turnOnBits("B", 1 << 1)
                 .turnOffBits("C", 1 << 2)

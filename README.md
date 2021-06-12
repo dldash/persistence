@@ -1,4 +1,6 @@
-# 🍺 Database Query Builder
+# 💥 SQL Query Builder
+
+[![Maven Central][ico-maven]][url-maven]
 
 ## ✨ Running Database Queries
 
@@ -74,3 +76,6 @@ Query query = Query.builder()
 ## ✨ Basic Where Clauses
 
 // @TODO
+
+[ico-maven]: https://img.shields.io/maven-central/v/io.github.dldash/persistence.svg?label=Maven%20Central
+[url-maven]: https://search.maven.org/search?q=g:%22io.github.dldash%22%20AND%20a:%22persistence%22

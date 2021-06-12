@@ -155,7 +155,8 @@ Query.builder()
 ### Where if not null
 
 ```java
-Query query = query()
+Query query = Query.builder()
+        .table("users")
         .whereIfPresent("A", 1)
         .whereIfPresent("B", null)
         .build();

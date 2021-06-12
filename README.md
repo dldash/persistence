@@ -6,6 +6,7 @@
 
 * 👉 [Running Database Queries](#-running-database-queries)
 * 👉 [Select Statements](#-select-statements)
+* 👉 [Raw Expressions](#-raw-expressions)
 * 👉 [Joins](#-joins)
 * 👉 [Basic Where Clauses](#-basic-where-clauses)
 * 👉 [Insert Statements](#-insert-statements)
@@ -59,6 +60,12 @@ Query query = Query.builder()
         .table("users")
         .distinct()
         .build();
+```
+
+## ✨ Raw Expressions
+
+```java
+Query.raw("NOW()")
 ```
 
 ## ✨ Joins

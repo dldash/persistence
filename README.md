@@ -6,6 +6,11 @@
 
 * 👉 [Running Database Queries](#-running-database-queries)
 * 👉 [Select Statements](#-select-statements)
+* 👉 [Joins](#-joins)
+* 👉 [Basic Where Clauses](#-basic-where-clauses)
+* 👉 [Insert Statements](#-insert-statements)
+* 👉 [Update Statements](#-update-statements)
+* 👉 [Delete Statements](#-delete-statements)
 
 ## ✨ Running Database Queries
 

@@ -235,6 +235,15 @@ Query query = Query.builder()
         .build();
 ```
 
+### Paginate
+
+```java
+Query query = Query.builder()
+        .table("users")
+        .paginate(10, 1)
+        .build();
+```
+
 ## ✨ Conditional Clauses
 
 Sometimes you may want certain query clauses to apply to a query based on another condition.

@@ -15,7 +15,7 @@ public final class UpdateQuery implements BuilderContract, WhereContract<UpdateQ
 
     private String table;
 
-    private final StringJoiner assignments = new StringJoiner(", ");
+    private final StringJoiner columns = new StringJoiner(", ");
     private final List<Object> bindings = new ArrayList<>();
 
     private final WhereQuery where = WhereQuery.builder();
@@ -34,7 +34,7 @@ public final class UpdateQuery implements BuilderContract, WhereContract<UpdateQ
     }
 
     public UpdateQuery update(String column, Object value) {
-        assignments.add(column + " = ?");
+        columns.add(column + " = ?");
         bindings.add(value);
         return this;
     }
@@ -47,37 +47,23 @@ public final class UpdateQuery implements BuilderContract, WhereContract<UpdateQ
     }
 
     public UpdateQuery update(String column, Raw raw) {
-        assignments.add(column + " = " + (raw != null ? raw.value() : "NULL"));
+        columns.add(column + " = " + (raw != null ? raw.value() : "NULL"));
         return this;
     }
 
     public UpdateQuery updateBits(String column, int bitsToTurnOn, int bitsToTurnOff) {
-        assignments.add(column + " = (IFNULL(" + column + ", 0) | " + bitsToTurnOn + ") &~ " + bitsToTurnOff);
+        columns.add(column + " = (IFNULL(" + column + ", 0) | " + bitsToTurnOn + ") &~ " + bitsToTurnOff);
         return this;
     }
 
     public UpdateQuery turnOnBits(String column, int bits) {
-        assignments.add(column + " = IFNULL(" + column + ", 0) | " + bits);
+        columns.add(column + " = IFNULL(" + column + ", 0) | " + bits);
         return this;
     }
 
     public UpdateQuery turnOffBits(String column, int bits) {
-        assignments.add(column + " = IFNULL(" + column + ", 0) &~ " + bits);
+        columns.add(column + " = IFNULL(" + column + ", 0) &~ " + bits);
         return this;
-    }
-
-    private String sql() {
-        Query whereQuery = where.build();
-
-        String whereClause = !whereQuery.sql().isEmpty() ? " WHERE " + whereQuery.sql() : "";
-
-        return "UPDATE " + table + " SET " + assignments + whereClause;
-    }
-
-    private List<Object> bindings() {
-        List<Object> bindings = new ArrayList<>(this.bindings);
-        bindings.addAll(where.build().bindings());
-        return bindings;
     }
 
     @Override
@@ -88,7 +74,19 @@ public final class UpdateQuery implements BuilderContract, WhereContract<UpdateQ
 
     @Override
     public Query build() {
-        return new ConcreteQuery(sql(), bindings());
+        Query whereQuery = where.build();
+
+        String whereClause = !whereQuery.sql().isEmpty() ? " WHERE " + whereQuery.sql() : "";
+
+        String sql = "UPDATE " + table + " SET " + columns + whereClause;
+
+        List<Object> bindings = new ArrayList<>(this.bindings);
+
+        if (!whereQuery.bindings().isEmpty()) {
+            bindings.addAll(whereQuery.bindings());
+        }
+
+        return new ConcreteQuery(sql, bindings);
     }
 
 }

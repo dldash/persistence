@@ -41,7 +41,7 @@ public final class DeleteQuery implements BuilderContract, WhereContract<DeleteQ
 
         String sql = "DELETE FROM " + table + whereClause;
 
-        List<Object> bindings = where.build().bindings();
+        List<Object> bindings = whereQuery.bindings();
 
         return new ConcreteQuery(sql, bindings);
     }

@@ -77,5 +77,37 @@ Query query = Query.builder()
 
 // @TODO
 
+## ✨ Insert Statements
+
+```java
+Query query = InsertQuery.builder()
+        .table("users")
+        .insert("email", "kayla@example.com")
+        .insert("votes", 0)
+        .build();
+```
+
+The `ignore()` method will ignore duplicate record errors while inserting records into the database:
+
+```java
+Query query = InsertQuery.builder()
+        .table("users")
+        .ignore()
+        .insert("id", 1)
+        .insert("email", "archer@example.com")
+        .build();
+```
+
+### Upserts (on duplicate key update)
+
+```java
+Query query = InsertQuery.builder()
+        .table("users")
+        .insert("email", "kayla@example.com")
+        .insertOrUpdate("votes", 10)
+        .insertOrUpdate("updated_at", Query.raw("NOW()"))
+        .build();
+```
+
 [ico-maven]: https://img.shields.io/maven-central/v/io.github.dldash/persistence.svg?label=Maven%20Central&style=flat-square
 [url-maven]: https://search.maven.org/search?q=g:%22io.github.dldash%22%20AND%20a:%22persistence%22

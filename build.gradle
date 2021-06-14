@@ -29,13 +29,6 @@ tasks.named('jar') {
     }
 }
 
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
-
-ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
-
 /*
 publishing {
     repositories {
@@ -64,6 +57,13 @@ publishing {
  *
  * alias gpg='docker run --rm -it -v $(pwd)/.gnupg:/root/.gnupg -e GPG_TTY=/dev/console vladgh/gpg'
  */
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+
 publishing {
     repositories {
         maven {

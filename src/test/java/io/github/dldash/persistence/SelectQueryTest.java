@@ -51,7 +51,7 @@ public class SelectQueryTest extends BaseTest {
 
     @Test
     public void groupBy() {
-        Query query = query()
+        Query query = Query.table("table")
                 .select("Id", "MAX(Amount) AS Amount")
                 .groupBy("Id")
                 .build();
